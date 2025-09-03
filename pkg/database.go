@@ -5,12 +5,11 @@ import (
 	"database/sql"
 	"embed"
 	"fmt"
+	"time"
 
 	"golang.org/x/crypto/bcrypt"
 	_ "github.com/lib/pq"          // PostgreSQL driver
 	_ "github.com/go-sql-driver/mysql" // MySQL driver
-
-	"github.com/hacktivist123/authkit/pkg/errors"
 )
 
 // Embed migration files directly in binary. See https://oscarforner.com/blog/2023-10-10-go-embed-for-migrations/
@@ -53,7 +52,7 @@ func (a *AuthManager) GetUserByUsername(username string) (*User, error) {
 	
 	// Handle the "no results" case gracefully
 	if err == sql.ErrNoRows {
-			return nil, ErrUserNotFound
+		return nil, ErrUserNotFound
 	}
 	
 	return user, err
